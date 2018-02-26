@@ -1,0 +1,21 @@
+sudo: required
+language: node_js
+node_js:
+- '6'
+branches:
+  only:
+  - master
+before_install:
+- mongod &
+- git clone https://github.com/Snyk/snyk-demo-todo
+install:
+- npm install
+- npm install snyk
+script:
+- snyk config set endpoint=https://snykgappoc.northeurope.cloudapp.azure.com/api
+- snyk auth $SNYK_TOKEN
+- snyk test || true
+- snyk monitor
+env:
+  global:
+  - secure: CM4knFhPnlM+rDSOdMvkL7d8LfSRDZaKbC9BGBnFRgreUdXBuQ0WJ0hQAAez7eBJaInh0BAY7Mw5km0ngJdnA1HCOIhmBXZZjFDaqRh/FlssBoSFZz/Qz+8jbXsgmHmUsfA+tArXWZ8H5HTqqK7+JS+g0OCfyHBsO3PUpmAI50ucYHGEruH4JZK8eq8S7TT4KvePvQQqoP01+LmsK5aP+BVpSX2fK7twiQn++LbPiDzszSr8PaonpyREt+/KELp/VCUu7aBoUZtGZJWnF+Ojf5TlDx5A/OYc1MCP7DHH1TOKdxJzKwtBHEp1SMvYgoGkbFiFJkEVmjvIP/wTVBu19pYjR32nnyFxOWyZp5dcz23rig4LuzTqDfuY0drsl6CO0bqHg/LGmUnbh4jEW6roYhArGWyd102Lsc3LzjPM1QXMbBpmoxHBTnPIbaZiZ0uqQw8JLJYPBk69ZOZYo7qtY6KyJ0+4J1/3eHw/U/uRJKrL8aCe7SDjKUP22lZEOlYwm0tguwnZGFRxCw5FYw70dVJvjzRlLPjakfonY6M0oUCZj9id4sUfzWMOJ0fraWtaVJtPP4sCj/4wyGwtuFp4MVzbsedrIerXABL5HeRBNS+nzYJikjf3odI7/7FVbDr+Fr82gpe13yMHQvps498VpTszw4odbqpCl8BjuapygdM=
